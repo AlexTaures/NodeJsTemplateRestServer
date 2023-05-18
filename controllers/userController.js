@@ -1,4 +1,5 @@
 const { response } = require('express');
+const User = require('../models/user');
 
 const userGet = (req, res = response) => {
     res.json({
@@ -6,11 +7,14 @@ const userGet = (req, res = response) => {
     })
  }
 
-const userPost = (req, res = response) => {
-    const { nombre, edad } = req.body;
+const userPost = async (req, res = response) => {
+    const body = req.body;
+    //Using a model from models->user
+    const user = new User( body );
+    await user.save();
     res.json({
         message: "Post API EndPoint from Controller",
-        nombre,edad
+        user
     })
   }
 
