@@ -1,5 +1,6 @@
 const { response } = require('express');
 const User = require('../models/user');
+const bcryptjs = require('bcryptjs');
 
 const userGet = (req, res = response) => {
     res.json({
@@ -8,9 +9,23 @@ const userGet = (req, res = response) => {
  }
 
 const userPost = async (req, res = response) => {
-    const body = req.body;
+    const { name, email, password, role } = req.body;
     //Using a model from models->user
-    const user = new User( body );
+    const user = new User( { name, email, password, role } );
+
+    //verify if email exist
+    
+    const emailExist = await User.findOne({ email }); //Parent model function
+    if(emailExist){
+      res.status(400).json({
+      msg: "The email sent already exist in DB",
+    })};
+
+    //pass hash
+    const salt = bcryptjs.genSaltSync(); //<<--default (10), steps for crypt
+    user.password = bcryptjs.hashSync( password, salt );
+
+    //save in DB
     await user.save();
     res.json({
         message: "Post API EndPoint from Controller",
