@@ -3,8 +3,7 @@ const colors = require('colors');
 const bcryptjs = require('bcryptjs');
 const Role = require('../models/role');
 
-//const roleList = ['ADMIN_ROLE', 'USER_ROLE'];
-
+//Validates the correct email format
 const emailValidation = (email) => {
   var validator = emailValidator.validate(email);
   if(!validator){
@@ -12,7 +11,7 @@ const emailValidation = (email) => {
   };
   return validator;
 }
-
+//Validates the password length
 const passwordValidation = (password) => {
   if(password.length !== 6){
     console.log(`Password lenght is: ${password.length}, must have 6 characters`.red);
@@ -21,8 +20,8 @@ const passwordValidation = (password) => {
   return true;
 }
 
+//Creates the hash for password before save
 const passwordCrypt = (password) => {
-//pass hash
 const salt = bcryptjs.genSaltSync(); //<<--default (10), steps for crypt
   if(password){
     password = bcryptjs.hashSync( password, salt );
@@ -30,18 +29,15 @@ const salt = bcryptjs.genSaltSync(); //<<--default (10), steps for crypt
   return password;
 }
 
+//Makes comparation between the sent role and the role list saved in database
 const roleValidation = async (role) => {
   const roleExist = await Role.findOne({ role });
   if(!roleExist){
       console.log(`${role} is not registered in DataBase`.red);
       return false;
     }
+    
   return true;
-  // if(!roleList.includes(role)){
-  //   console.log(`${role} is not a valid role`.red);
-  //   return false;
-  // }
-  // return true;
 }
 
 module.exports = {
