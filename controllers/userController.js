@@ -23,14 +23,31 @@ const userPost = async (req, res = response) => {
 
     //pass hash
     const salt = bcryptjs.genSaltSync(); //<<--default (10), steps for crypt
-    user.password = bcryptjs.hashSync( password, salt );
+    if(user.password){
+      user.password = bcryptjs.hashSync( password, salt );
+    }
 
     //save in DB
-    await user.save();
-    res.json({
+    user.save()
+    .then((user)=>{
+      res.json({
         message: "Post API EndPoint from Controller",
         user
     })
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error.message });
+    })
+    
+
+    // .then((user) => {
+    //   // Send a JSON response with the newly created user
+    //   res.json(user);
+    // })
+    // .catch((error) => {
+    //   // Send a JSON response with the error message
+    //   res.status(400).json({ error: error.message });
+    // });
   }
 
 const userPut = (req, res = response) => {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const dbConnection = async(error) => {    
   count = 1;
-  maxTries = 3;
+  maxTries = 10;
   while(true) {
     try {
       await mongoose.connect(process.env.MONGODB_CNN);

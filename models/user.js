@@ -1,4 +1,7 @@
 const { Schema, model } = require('mongoose');
+const emailValidator = require('email-validator');
+const { emailValidation } = require('../middlewares/userValidators')
+
 UserSchema = Schema({
   name: {
     type: String,
@@ -6,8 +9,12 @@ UserSchema = Schema({
   },
   email: {
     type: String,
+    validate:{
+      validator: props => emailValidation(props),
+      message: props => `"${props.value}" is not a valid email`
+    },
     required: [true, "Required email"],
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
