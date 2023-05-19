@@ -3,6 +3,8 @@ This is a simple template that uses a single route cataloge, controller and serv
 -The model->server.js uses the routes from routes->user.js
 -In the routes->user.js imports userController.
 -To AtlasMongo connection importin model->server the database->config.js
--The models->user.js exports a Schema, that could be imported in controllers->userController as User, the conection starts with model->server.js
+-The models->user.js exports a Schema, that could be imported in controllers->userController as User, the conection starts with model->server.js,
+OTHER MODELS could be imported en somefile and acceses their functions
 
---Password hash uses require bcryptjs en controller->userController
+--The validation for models->Schemas coming from the middlewares->schemasValidators
+

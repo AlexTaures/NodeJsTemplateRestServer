@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const emailValidator = require('email-validator');
-const { emailValidation, passwordValidation, passwordCrypt } = require('../middlewares/userSchemaValidators')
+const { emailValidation, passwordValidation, passwordCrypt, roleValidation } = require('../middlewares/userSchemaValidators')
 
 UserSchema = Schema({
   name: {
@@ -29,8 +29,11 @@ UserSchema = Schema({
   },
   role: {
     type: String,
-    required: true,
-    enum: ['ADMIN_ROLE', 'USER_ROLE']
+    required: [true,'Role is required'],
+    validate: {
+      validator: props => roleValidation(props),
+      message: props => `${props.value} is not registered in DataBase`
+    }
   },
   state: {
     type: Boolean,
