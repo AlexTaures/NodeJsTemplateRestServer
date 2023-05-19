@@ -1,6 +1,5 @@
 const { response } = require('express');
 const User = require('../models/user');
-const bcryptjs = require('bcryptjs');
 
 const userGet = (req, res = response) => {
     res.json({
@@ -21,11 +20,6 @@ const userPost = async (req, res = response) => {
       msg: "The email sent already exist in DB",
     })};
 
-    //pass hash
-    const salt = bcryptjs.genSaltSync(); //<<--default (10), steps for crypt
-    if(user.password){
-      user.password = bcryptjs.hashSync( password, salt );
-    }
 
     //save in DB
     user.save()
