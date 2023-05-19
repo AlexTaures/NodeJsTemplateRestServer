@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const colors = require('colors');
 
 const dbConnection = async(error) => {    
   count = 1;
@@ -6,11 +7,11 @@ const dbConnection = async(error) => {
   while(true) {
     try {
       await mongoose.connect(process.env.MONGODB_CNN);
-      console.log('Online Database connected');
+      console.log('Online Database connected'.blue);
       return;
     
     } catch (error) {
-      console.log(`Error establishing connection to online database, attemping again ${count}`)
+      console.log(`Error establishing connection to online database, attemping again ${count}`.magenta)
         if (++count == maxTries) throw error;
     }
 }

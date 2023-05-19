@@ -35,16 +35,6 @@ const userPost = async (req, res = response) => {
         error: error.message 
       });
     })
-    
-
-    // .then((user) => {
-    //   // Send a JSON response with the newly created user
-    //   res.json(user);
-    // })
-    // .catch((error) => {
-    //   // Send a JSON response with the error message
-    //   res.status(400).json({ error: error.message });
-    // });
   }
 
 const userPut = (req, res = response) => {

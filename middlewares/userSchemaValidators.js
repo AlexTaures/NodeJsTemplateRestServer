@@ -3,6 +3,7 @@ const colors = require('colors');
 const bcryptjs = require('bcryptjs');
 const Role = require('../models/role');
 
+
 //Validates the correct email format
 const emailValidation = (email) => {
   var validator = emailValidator.validate(email);
