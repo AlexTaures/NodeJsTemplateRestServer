@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const emailValidator = require('email-validator');
-const { emailValidation, passwordValidation, passwordCrypt, roleValidation } = require('../middlewares/userSchemaValidators')
+const { emailValidation, passwordValidation, passwordCrypt, roleValidation, emailExist } = require('../middlewares/userSchemaValidators')
 
 UserSchema = Schema({
   name: {
@@ -46,9 +46,14 @@ UserSchema = Schema({
 });
 
 //SchemaMethods
-UserSchema.pre('save', function() {
+
+UserSchema.pre('save', function(next) {
+  //Crypt password
   this.password = passwordCrypt(this.password);
+  //Comprobates if email exist
+  emailExist(this, next);
 });
+
 
 //Without arrow function, hiddes some keys from jsonResponse
 UserSchema.methods.toJSON = function(){

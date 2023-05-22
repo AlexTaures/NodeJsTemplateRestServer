@@ -12,15 +12,6 @@ const userPost = async (req, res = response) => {
     //Using a model from models->user
     const user = new User( { name, email, password, role } );
 
-    //verify if email exist
-    
-    const emailExist = await User.findOne({ email }); //Parent model function
-    if(emailExist){
-      res.status(400).json({
-      msg: "The email sent already exist in DB",
-    })};
-
-
     //save in DB
     user.save()
     .then((user)=>{
