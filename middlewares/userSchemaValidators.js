@@ -4,7 +4,6 @@ const bcryptjs = require('bcryptjs');
 const Role = require('../models/role');
 const { mongoose } = require('mongoose');
 
-
 //*******Schema Validation Functions*************
 //Validates the correct email format
 const emailValidation = async (email) => {
@@ -48,22 +47,42 @@ const passwordCrypt = (password) => {
     return password;
   }
 
-//Validates if email exist
-const emailExist = (user, next) => {
-  mongoose.models.User.findOne({ email: user.email })
-  .then(existingUser => {
-    if (existingUser) {
-      // Email already exists, handle the error
-      console.log(`The email '${user.email}' already exists`.red);
-      throw new Error(`The email '${user.email}' already exists`);
-    }
 
-    // Email does not exist, proceed to save the user
-    next();
-  })
-  .catch(err => {
-    next(err);
-  });
+ //ASYNC VALIDATIOS 
+//Validates id
+
+const idValidation = async (id) => {
+  try {
+    _id = await mongoose.models.User.findOne({ _id: id });
+  //Validates if id is a mongoose id
+  //   if(!check(id).isMongoId()){
+  //     throw new Error(`The id: '${id}' is not a mongo id`)
+  //  }
+  
+    if(!_id){
+      console.log(`The id: '${id}' doesn't exist in DataBase`.red)
+      throw new Error(`The id: '${id}' doesn't exist in DataBase`);
+    }
+      return true;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+//Validates if email exist
+const emailExist = async(user) => {
+ try {
+  user = await mongoose.models.User.findOne({ email: user.email });
+  if(user){
+    console.log(`The email '${user.email}' already exist in DataBase`.red);
+    throw new Error(`The email '${user.email}' already exist in DataBase`);
+  }else{
+    return true;
+  }
+ } catch (error) {
+    throw error;
+ }
 }
 
 module.exports = {
@@ -71,5 +90,6 @@ module.exports = {
   passwordValidation,
   passwordCrypt,
   roleValidation,
+  idValidation,
   emailExist
 }

@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const emailValidator = require('email-validator');
-const { emailValidation, passwordValidation, passwordCrypt, roleValidation, emailExist } = require('../middlewares/userSchemaValidators')
+const { emailValidation, passwordValidation, passwordCrypt, roleValidation, emailExist, idValidation } = require('../middlewares/userSchemaValidators')
 
 UserSchema = Schema({
   name: {
@@ -47,11 +47,55 @@ UserSchema = Schema({
 
 //SchemaMethods
 
-UserSchema.pre('save', function(next) {
-  //Crypt password
+//Crypt password
+UserSchema.pre('save',async function(next) {
   this.password = passwordCrypt(this.password);
   //Comprobates if email exist
-  emailExist(this, next);
+
+  try {
+    await emailExist(this)
+  } catch (error) {
+    throw error;
+  }
+});
+
+//Validations at update**********************
+UserSchema.pre('findOneAndUpdate', async function(next) {
+  //console.log(this._conditions._id);
+
+  //Validates id
+  try {
+    await idValidation(this._conditions._id);
+  } catch (error) {
+    throw error;
+  }
+
+  // Crypt and validates password if being updated
+  if (this._update.password) {
+    if(!passwordValidation(this._update.password)){
+      throw new Error(`The password must have 6 characters`)
+    }
+    this._update.password = passwordCrypt(this._update.password);
+  }
+
+  // Validates Rol integration
+  if(this._update.role){
+    if(!await roleValidation(this._update.role)){
+      console.log(this._update.role);
+      throw new Error(`${this._update.role} is not registered in DataBase`);
+    };
+  }
+
+  // Comprobates if email exists if being updated
+  if(this._update.email){
+  try {
+    await emailExist(this._update)
+  } catch (error) {
+    throw error;
+  }
+  }
+
+
 });
 
 

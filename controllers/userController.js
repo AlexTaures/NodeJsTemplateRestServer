@@ -28,10 +28,27 @@ const userPost = async (req, res = response) => {
     })
   }
 
-const userPut = (req, res = response) => {
-    res.json({
-        message: "Put API EndPoint from Controller"
+const userPut =  async(req, res = response) => {
+    const id = req.params.id;
+    const { password, google, ...arg } = req.body;
+    
+    if(password){
+      arg.password = password;
+    }
+    //const user = await User.findOneAndUpdate( {_id: id}, arg );
+    await User.findOneAndUpdate( {_id: id}, arg )
+    .then((user)=>{
+      res.json({
+        message: "Put API EndPoint from Controller",
+        user
     })
+    })
+    .catch((error) => {
+      res.status(400).json({ 
+        status: 400,
+        error: error.message 
+      });
+    })   
   }
 
 const userDelete = (req, res = response) => {
