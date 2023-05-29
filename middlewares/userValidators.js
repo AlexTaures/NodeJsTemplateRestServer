@@ -80,7 +80,7 @@ const userValidations = async ( request, response, next ) => {
   email?emailValidation(email): 0;
   request.method=='PATCH'?await emailExist(email): 0;
   role? await roleValidation(role): 0;
-  password?password = passwordValidation(password): 0;
+  password?request.body.password = passwordValidation(password): 0;
   _id?await idValidation(_id): 0;
 
 

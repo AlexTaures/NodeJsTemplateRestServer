@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', userGet )
 router.put('/:id', userPut )
-router.post('/',userPost )
+router.post('/', userValidations, userPost )
 router.delete('/:id', userDelete)
 //Erase later
 router.patch('/:id',userValidations, userPatch )
