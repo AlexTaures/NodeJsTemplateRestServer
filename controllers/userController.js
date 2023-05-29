@@ -1,6 +1,6 @@
 const { response } = require('express');
 const User = require('../models/user');
-const user = require('../models/user');
+// const user = require('../models/user');
 
 const userGet = async (req, res = response) => {
   //for skip an limit for pagination
@@ -91,6 +91,13 @@ const userDelete = async (req, res = response) => {
     
   }
 
+  //TESTIN MIDDLEWARE, ERASE LATER
+  const userPatch = (req, res) => {
+    res.status(200).json({
+      message: "All Done, the middlewares are working"
+    })
+  }
+
   module.exports = {
-    userGet, userPost, userPut, userDelete
+    userGet, userPost, userPut, userDelete, userPatch
   }
