@@ -6,11 +6,10 @@ const { userValidations } = require('../middlewares/userValidators')
 const router = Router();
 
 router.get('/', userGet )
-router.put('/:id', userPut )
+router.put('/:id', userValidations, userPut )
 router.post('/', userValidations, userPost )
 router.delete('/:id', userDelete)
-//Erase later
-router.patch('/:id',userValidations, userPatch )
+
 
 
 
