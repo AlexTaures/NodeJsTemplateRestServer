@@ -61,8 +61,7 @@ UserSchema.pre('save',async function(next) {
 
 //Validations at update**********************
 UserSchema.pre('findOneAndUpdate', async function(next) {
-  //console.log(this._conditions._id);
-
+  
   //Validates id
   try {
     await idValidation(this._conditions._id);
@@ -93,6 +92,11 @@ UserSchema.pre('findOneAndUpdate', async function(next) {
   } catch (error) {
     throw error;
   }
+  }
+
+  //Validates for "delete" method
+  if(this._update.state){
+    console.log('working');
   }
 
 
