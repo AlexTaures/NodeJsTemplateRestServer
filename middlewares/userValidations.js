@@ -20,7 +20,7 @@ const emailExist = async (email) => {
   try {
     const user = await mongoose.models.User.findOne({ email: email });
     if(user){
-      console.log(`The email: '${email}' already exist in DataBase`);
+      console.log(`The email: '${email}' already exist in DataBase`.red);
       throw new Error(`The email: '${email}' already exist in DataBase`);
     }
   } catch (error) {
@@ -78,7 +78,7 @@ const userValidations = async ( request, response, next ) => {
 
  try {
   email?emailValidation(email): 0;
-  request.method=='PATCH'?await emailExist(email): 0;
+  request.method=='POST'?await emailExist(email): 0;
   role? await roleValidation(role): 0;
   password?request.body.password = passwordValidation(password): 0;
   _id?await idValidation(_id): 0;
