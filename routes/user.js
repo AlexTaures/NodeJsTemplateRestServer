@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { userGet, userPut, userPost, userDelete } = require('../controllers/userController');
-const { userValidations } = require('../middlewares/userValidations')
+const { userValidations } = require('../middlewares/userValidations');
+const { validateJWT } = require('../middlewares/jwtValidations');
 
 
 const router = Router();
@@ -8,7 +9,7 @@ const router = Router();
 router.get('/', userGet )
 router.put('/:id', userValidations, userPut )
 router.post('/', userValidations, userPost )
-router.delete('/:id', userValidations, userDelete)
+router.delete('/:id', userValidations, validateJWT , userDelete)
 
 
 

@@ -10,8 +10,8 @@ const { mongoose, mongo } = require('mongoose');
 const emailValidation =  (email) => {
   var validator = emailValidator.validate(email);
   if(!validator){
-    console.log(`The mail '${email}' is not a valid Email value`.red);
-    throw new Error(`The mail '${email}' is not a valid Email value`)
+    console.log(`The email '${email}' is not a valid Email value`.red);
+    throw new Error(`The email '${email}' is not a valid Email value`)
   };
 }
 
@@ -59,11 +59,13 @@ const idValidation = async (id) => {
     throw new Error(`The id: '${id}' is not valid Mongo ID`);
   }
   try {
-    _id = await mongoose.models.User.findOne({ _id: id });  
+    _id = await mongoose.models.User.findOne({ _id: id });  //PROBAR CON FALSO STATE
+
     if(!_id){
       console.log(`The id: '${id}' doesn't exist in DataBase`.red)
       throw new Error(`The id: '${id}' doesn't exist in DataBase`);
     }
+
   } catch (error) {
     throw error;
   }
@@ -74,7 +76,7 @@ const idValidation = async (id) => {
 const userValidations = async ( request, response, next ) => {
   const { email, role } = request.body;
   let { password } = request.body;
-  const _id = request.params.id; 
+  const _id = request.params.id;
 
  try {
   email?emailValidation(email): 0;
@@ -95,5 +97,8 @@ const userValidations = async ( request, response, next ) => {
 
 
 module.exports = {
-  userValidations
+  userValidations,
+  emailValidation,
+  emailExist,
+  passwordValidation
 }

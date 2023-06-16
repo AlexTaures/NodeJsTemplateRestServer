@@ -12,7 +12,10 @@ const dbConnection = async(error) => {
     
     } catch (error) {
       console.log(`Error establishing connection to online database, attemping again ${count}`.magenta)
-        if (++count == maxTries) throw error;
+        if (++count == maxTries){
+          console.log('Failed to connect to database, please check mongoURL'.red)
+          throw new Error('Failed to connect to database, please check mongoURL')
+        };
     }
 }
   

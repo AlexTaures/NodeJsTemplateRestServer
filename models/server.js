@@ -40,7 +40,8 @@ class Server{
     }
 
     routes(){
-          this.app.use(this.usersPath, require('../routes/user')) //import the user project routes
+        this.app.use(this.authPath, require('../routes/auth')) 
+        this.app.use(this.usersPath, require('../routes/user')) //import the user project routes
     }
 
     listen(){

@@ -72,14 +72,15 @@ const userPut =  async(req, res = response) => {
 
 const userDelete = async (req, res = response) => {
     const { id } = req.params;
-    const arg = { state: false }
+    const arg = { state: false };
+    const authUser = req.user;
 
     //Turn to false some item
     await User.findOneAndUpdate( {_id: id}, arg )
     .then((user)=>{
       res.json({
         message: "Delete API EndPoint from Controller",
-        user
+        user, authUser
     })
     })
     .catch((error) => {
@@ -91,13 +92,6 @@ const userDelete = async (req, res = response) => {
     
   }
 
-  //TESTIN MIDDLEWARE, ERASE LATER
-  const userPatch = (req, res) => {
-    res.status(200).json({
-      message: "All Done, the middlewares are working"
-    })
-  }
-
   module.exports = {
-    userGet, userPost, userPut, userDelete, userPatch
+    userGet, userPost, userPut, userDelete
   }

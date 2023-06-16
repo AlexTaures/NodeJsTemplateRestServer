@@ -33,7 +33,8 @@ UserSchema = Schema({
 
 //Without arrow function, hiddes some keys from jsonResponse
 UserSchema.methods.toJSON = function(){
-  const {__v, password, ...userJson } = this.toObject();
+  const {__v, password, _id, ...userJson } = this.toObject();
+  userJson.uid = _id;
   return userJson;
 }
 
