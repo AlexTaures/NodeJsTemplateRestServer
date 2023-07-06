@@ -27,17 +27,19 @@ const validateJWT = async ( request, response, next ) => {
         message: 'AUTHENTICATION FAILURE',
         error: 'Invalid token - Inactive user'
       })
+      return;
     }
 
 
     request.user = user; //return authUser
-
+    
   } catch (error) {
     console.log(error)
     response.status(401).json({
       message: 'AUTHENTICATION FAILURE',
       error: 'Invalid token'
     })
+    return;
   }
 
   next();

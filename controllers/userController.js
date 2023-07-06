@@ -72,8 +72,7 @@ const userPut =  async(req, res = response) => {
 
 const userDelete = async (req, res = response) => {
     const { id } = req.params;
-    try {
-      const arg = { state: false };
+    const arg = { state: false };
     const authUser = req.user;
 
     //Turn to false some item
@@ -89,13 +88,7 @@ const userDelete = async (req, res = response) => {
         status: 400,
         error: error.message
       });
-      throw new Error('Internal Server Error');
-      //throw error;
     })
-    } catch (error) {
-      console.log(error.message.red);
-    }
-
   }
 
   module.exports = {
