@@ -9,7 +9,7 @@ const router = Router();
 router.get('/', userGet )
 router.put('/:id', userValidations, userPut )
 router.post('/', userValidations, userPost )
-router.delete('/:id', userValidations, validateJWT , userDelete)
+router.delete('/:id', validateJWT, userValidations, userDelete)
 
 
 

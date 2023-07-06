@@ -40,9 +40,9 @@ const userPost = async (req, res = response) => {
     })
     })
     .catch((error) => {
-      res.status(400).json({ 
+      res.status(400).json({
         status: 400,
-        error: error.message 
+        error: error.message
       });
     })
   }
@@ -50,7 +50,7 @@ const userPost = async (req, res = response) => {
 const userPut =  async(req, res = response) => {
     const id = req.params.id;
     const { password, google, ...arg } = req.body;
-    
+
     if(password){
       arg.password = password;
     }
@@ -63,16 +63,17 @@ const userPut =  async(req, res = response) => {
     })
     })
     .catch((error) => {
-      res.status(400).json({ 
+      res.status(400).json({
         status: 400,
-        error: error.message 
+        error: error.message
       });
-    })   
+    })
   }
 
 const userDelete = async (req, res = response) => {
     const { id } = req.params;
-    const arg = { state: false };
+    try {
+      const arg = { state: false };
     const authUser = req.user;
 
     //Turn to false some item
@@ -84,12 +85,17 @@ const userDelete = async (req, res = response) => {
     })
     })
     .catch((error) => {
-      res.status(400).json({ 
+      res.status(400).json({
         status: 400,
-        error: error.message 
+        error: error.message
       });
-    })   
-    
+      throw new Error('Internal Server Error');
+      //throw error;
+    })
+    } catch (error) {
+      console.log(error.message.red);
+    }
+
   }
 
   module.exports = {

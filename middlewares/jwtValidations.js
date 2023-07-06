@@ -20,14 +20,6 @@ const validateJWT = async ( request, response, next ) => {
 
     //validate user model by uid
     const user = await User.findById( uid );
-
-    // //Validate if user exist
-    // if(!user){
-    //   response.status(401).json({
-    //     message: 'AUTHENTICATION FAILURE',
-    //     error: 'User not exist in DataBase'
-    //   })
-    // }
     
     //Verificate state active
     if(!user.state){
@@ -38,7 +30,7 @@ const validateJWT = async ( request, response, next ) => {
     }
 
 
-    request.user = user;
+    request.user = user; //return authUser
 
   } catch (error) {
     console.log(error)
