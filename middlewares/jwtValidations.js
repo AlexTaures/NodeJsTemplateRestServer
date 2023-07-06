@@ -25,7 +25,7 @@ const validateJWT = async ( request, response, next ) => {
     if(!user.state){
       response.status(401).json({
         message: 'AUTHENTICATION FAILURE',
-        error: 'Invalid token - Inactive user'
+        error: 'Unknown user'
       })
       return;
     }
