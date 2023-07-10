@@ -23,11 +23,11 @@ const validateJWT = async ( request, response, next ) => {
     
     //Verificate state active
     if(!user.state){
-      response.status(401).json({
+     return response.status(401).json({
         message: 'AUTHENTICATION FAILURE',
         error: 'Unknown user'
       })
-      return;
+      
     }
 
 
@@ -35,11 +35,11 @@ const validateJWT = async ( request, response, next ) => {
     
   } catch (error) {
     console.log(error)
-    response.status(401).json({
+    return response.status(401).json({
       message: 'AUTHENTICATION FAILURE',
       error: 'Invalid token'
     })
-    return;
+    
   }
 
   next();
