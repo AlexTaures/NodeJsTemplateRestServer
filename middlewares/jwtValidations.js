@@ -8,7 +8,7 @@ const validateJWT = async ( request, response, next ) => {
   const token = request.header('x-token')
 
   if(!token){
-    response.status(401).json({
+    return response.status(401).json({
       message: 'AUTHENTICATION FAILURE',
       error: 'No token in fetched data'
     })
