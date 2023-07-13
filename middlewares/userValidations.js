@@ -100,5 +100,6 @@ module.exports = {
   userValidations,
   emailValidation,
   emailExist,
-  passwordValidation
+  passwordValidation,
+  roleValidation
 }

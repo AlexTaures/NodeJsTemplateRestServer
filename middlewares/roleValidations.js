@@ -1,8 +1,8 @@
-const { response } = require("express")
-
+const { response } = require("express");
+const { roleValidation } = require('./userValidations');
 
 const isAdminRole = (req, res = response, next) => {
-  
+
   const { role, name } = req.user;
 
   if(role !== 'ADMIN_ROLE'){
@@ -14,19 +14,28 @@ const isAdminRole = (req, res = response, next) => {
   next();
 }
 
-const hasRole = ( ...roles ) => {
-   
-  return (req, res = response, next ) => {
-    
-    if(!roles.includes(req.user.role)){
-      return res.status(401).json({
-        msg: 'Permision Denied, Role Verification Failure'
-      })
-    }
+const hasRole = (...roles) => {
+  return async (req, res = response, next) => {
+    try {
+      for (const role of roles) {
+        await roleValidation(role);
+      }
 
-    next();
-  }
-}
+      if (!roles.includes(req.user.role)) {
+        return res.status(401).json({
+          msg: 'Permission Denied, Role Verification Failure'
+        });
+      }
+
+      next();
+    } catch (error) {
+      return res.status(500).json({
+        msg: error.message
+      });
+    }
+  };
+};
+
 
 
 module.exports = {
