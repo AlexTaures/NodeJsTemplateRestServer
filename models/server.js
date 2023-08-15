@@ -1,16 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
-
-
-
+const routesModule = require('../routes/index');
 class Server{
 
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
-        this.usersPath = '/api/users';
-        this.authPath = '/api/auth'
 
         //Connect to DB
         this.connectDB();
@@ -39,9 +35,12 @@ class Server{
         
     }
 
-    routes(){
-        this.app.use(this.authPath, require('../routes/auth')) 
-        this.app.use(this.usersPath, require('../routes/user')) //import the user project routes
+    async routes(){
+        const routeParams = await routesModule.loadRoutes(__dirname.replace('models','routes'));
+    
+        routeParams.forEach((item) => {
+            this.app.use(item.path,require(item.fileDir))
+        })
     }
 
     listen(){
