@@ -3,4 +3,7 @@
   url: /api/auth
 
 - name: users
-  url: /api/users 
+  url: /api/users
+
+- name: contactUS
+  url: /api/contact_us
