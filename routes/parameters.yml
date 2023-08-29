@@ -5,5 +5,5 @@
 - name: users
   url: /api/users
 
-- name: contactUS
+- name: contact_us
   url: /api/contact_us

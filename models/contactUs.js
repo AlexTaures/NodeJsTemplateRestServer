@@ -15,12 +15,16 @@ ContactUsSchema = Schema({
     required: [true, "Required company"],
   },
   message: {
-    type: Text,
+    type: String,
     required: [true, "Required message"],
   },
   state: {
     type: Boolean,
     default: true
+  },
+  date: {
+    type: Date,
+    default: new Date()
   }
 });
 

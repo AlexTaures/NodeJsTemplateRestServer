@@ -69,7 +69,7 @@ const contactUsPut =  async(req, res = response) => {
 const contactUsDelete = async (req, res = response) => {
     const { id } = req.params;
     const arg = { state: false };
-    const authUser = req.User;
+    const authUser = req.user;
 
     //Turn to false some item
     if(!authUser) return;
