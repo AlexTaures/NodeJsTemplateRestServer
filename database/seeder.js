@@ -4,6 +4,7 @@ dotenv.config();
 const Role = require('../models/role');
 const User = require('../models/user');
 const colors = require('colors');
+const userValidations = require('../middlewares/userValidations');
 
 const mongodbUri = process.env.MONGODB_CNN;
 const roleNames = process.env.ROLE_SEED.split(',');
@@ -41,13 +42,15 @@ const mongoSeeder = async () => {
 
 const userSeeder = async () => {
   try {
+    passwordHash = userValidations.passwordValidation(seedPass);
+
     const user = await User.findOne({ name: seedName, email: seedEmail, role: seedRole });
     if(!user){
       
         const seedUSer = new User({
           name: seedName,
           email: seedEmail,
-          password: seedPass,
+          password: passwordHash,
           role: seedRole
         });
         await seedUSer.save()
