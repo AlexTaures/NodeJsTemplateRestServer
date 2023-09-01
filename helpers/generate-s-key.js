@@ -8,6 +8,7 @@ const User = require('../models/user');
 //Connect to database
 dotenv.config();
 const mongodbUri = process.env.MONGODB_CNN;
+const forceFlag = process.argv.includes('--force') //npm run generate-key --  --force
 
 //Verificate if exist user data in connected database
 const verificateUsers = async () => {
@@ -32,7 +33,7 @@ const main =  async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  if(await verificateUsers()){
+  if( await verificateUsers() || forceFlag ){
     try {
       const secretKey = generateSecretKey();
   
@@ -42,12 +43,13 @@ const main =  async () => {
         .map(([key, value]) => `${key}=${value}`)
         .join('\n');
       fs.writeFileSync('.env', updatedEnvContent);
-      console.log('success writing!!!!!'.green);
+      console.log('Key generated successfully!!!!!!'.green);
     } catch (error) {
       console.log(error.red);
     }
   }else{
-    console.log('There are user data in database, is not recomendable generate a new key'.yellow);
+    console.log('There are user data in database, is not recomendable generate a new key.'.yellow);
+    console.log('To force key generation exec command line:'.yellow+' npm run generate-key -- --force '.blue);
   }
   mongoose.disconnect();
 }
