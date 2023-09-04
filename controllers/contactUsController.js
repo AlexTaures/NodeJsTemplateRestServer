@@ -29,7 +29,7 @@ const contactUsGet = async (req, res = response) => {
 const contactUsPost = async (req, res = response) => {
     const { ...arg } = req.body;
     //Using a model from models->contactUs
-    const contactUs = new ContactUs( { arg } );
+    const contactUs = new ContactUs( arg );
 
     //save in DB
     contactUs.save()
