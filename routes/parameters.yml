@@ -1,6 +1,0 @@
-# Define api and file name
-- name: auth
-  url: /api/auth
-
-- name: users
-  url: /api/users 

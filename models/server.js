@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
-const routesModule = require('../routes/index');
+const apiRoutes = require('../routes/api');
 class Server{
 
     constructor(){
@@ -36,11 +36,7 @@ class Server{
     }
 
     async routes(){
-        const routeParams = await routesModule.loadRoutes(__dirname.replace('models','routes'));
-    
-        routeParams.forEach((item) => {
-            this.app.use(item.path,require(item.fileDir))
-        })
+        this.app.use('/api', apiRoutes);
     }
 
     listen(){
